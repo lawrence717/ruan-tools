@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruan.Lab｜由阮製作 · 實作工具檔案庫</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="7" fill="#CCE2E8" stroke="#18313A" stroke-width="1.8" />
+          <path d="M10 10H18C20.209 10 22 11.791 22 14C22 16.209 20.209 18 18 18H10V10Z" stroke="#18313A" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M10 18V23" stroke="#18313A" stroke-width="2.1" stroke-linecap="round" />
+          <path d="M16.5 18L22 23" stroke="#255B6E" stroke-width="2.1" stroke-linecap="round" />
+        </svg>
+        <span class="brand__text">
+          <span>Ruan.Lab</span>
+          <span class="brand__sub">由阮製作</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="#tool-grid">工具圖鑑</a>
+        <a class="btn btn--ghost" href="#architecture">擴充架構</a>
+        <a class="btn btn--primary" href="AGENTS.md">檢視 AGENTS.md</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <h1 class="hero__title">
+          我的 <span class="mark">AI 自製系統</span> 與實務工具檔案庫
+        </h1>
+        <div class="editorial-rule" aria-hidden="true"></div>
+        <p class="hero__subtitle">
+          這個網站收錄了我用 AI 輔助開發並實際部署上線的實務小工具，從前端介面、邊緣運算架構到核心演算法皆整理為結構化檔案。
+          全站依循根目錄的 <code>AGENTS.md</code> 規範與 <code>raw/ → wiki/ → tools/</code> 流程建置，未來無論新增自製作品或收錄優質外部網站，AI 都能依照同一套標準無痛擴充。
+        </p>
+        <div class="hero__stats">
+          <div class="stat-pill"><span>目前顯示工具：</span><strong id="visible-count">3</strong><span>項</span></div>
+          <div class="stat-pill"><span>自製開發：</span><strong>3</strong><span>項</span></div>
+          <div class="stat-pill"><span>外部網站：</span><strong>0</strong><span>項（可擴充）</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls-section" aria-label="工具篩選與搜尋">
+      <div class="filter-bar">
+        <div class="filter-groups">
+          <div class="filter-group" role="group" aria-label="來源類型篩選">
+            <span class="filter-group__label">來源</span>
+            <button class="filter-btn is-active" type="button" data-filter-origin="all">全部來源</button>
+            <button class="filter-btn" type="button" data-filter-origin="self-built">自製開發</button>
+            <button class="filter-btn" type="button" data-filter-origin="curated">外部網站</button>
+          </div>
+          <div class="filter-divider" aria-hidden="true"></div>
+          <div class="filter-group" role="group" aria-label="主題分類篩選">
+            <span class="filter-group__label">分類</span>
+            <button class="filter-btn is-active" type="button" data-filter-category="all">全部分類</button>
+            <button class="filter-btn" type="button" data-filter-category="life-ops">生活與財務</button>
+            <button class="filter-btn" type="button" data-filter-category="dev-infra">開發與基建</button>
+          </div>
+        </div>
+        <div class="search-box">
+          <input id="tool-search" class="search-input" type="search" placeholder="搜尋工具名稱、技術棧或網域..." aria-label="搜尋工具" />
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="工具卡片總覽">
+      <div id="tool-grid" class="tool-grid">
+        <article class="tool-card" data-origin="self-built" data-category="life-ops" data-search="外匯小幫手 匯率 手續費 react hono cloudflare pages cheerio 台銀 玉山 multi-hop bank.ruan.edu.kg">
+          <div class="tool-card__top">
+            <span class="index-code">INDEX 01</span>
+            <span class="badge badge--self">自製開發</span>
+          </div>
+          <h3 class="tool-card__title">外匯小幫手 — 匯率與手續費比較</h3>
+          <p class="tool-card__desc">以 React 18 與 Hono 打造的匯率試算系統，整合台銀爬蟲、玉山／國泰與 Yahoo Finance，支援 Multi-hop 多跳電匯逆算與信用卡淨回饋比價。</p>
+          <div class="tool-card__tags">
+            <span class="tag">生活與財務</span>
+            <span class="tag">React + Hono</span>
+            <span class="tag">bank.ruan.edu.kg</span>
+          </div>
+          <div id="spec-01" class="quick-spec" hidden>
+            <p class="quick-spec__title">QUICK SPEC · 核心技術摘要</p>
+            <p>前端：React 18 + TS + Tailwind；後端：Hono（CF Pages / Node.js 雙執行）+ Cheerio 爬蟲 + 5 分鐘 Map 快取與逆向成本試算。</p>
+          </div>
+          <div class="tool-card__actions">
+            <a class="btn btn--primary" href="tools/01-fx-helper.html">閱讀詳解</a>
+            <button class="btn btn--mist" type="button" data-quick-toggle="spec-01" aria-expanded="false">架構速覽</button>
+            <a class="btn btn--ghost" href="https://bank.ruan.edu.kg" target="_blank" rel="noopener noreferrer">開啟網站 ↗</a>
+          </div>
+        </article>
+
+        <article class="tool-card" data-origin="self-built" data-category="dev-infra" data-search="短網址服務 cloudflare workers kv turnstile ttl admin ruan.edu.kg">
+          <div class="tool-card__top">
+            <span class="index-code">INDEX 02</span>
+            <span class="badge badge--self">自製開發</span>
+          </div>
+          <h3 class="tool-card__title">極簡短網址服務</h3>
+          <p class="tool-card__desc">單檔 Cloudflare Workers + KV 無伺服器轉址系統，支援自訂短碼、原生 TTL 過期清除、<code>ctx.waitUntil</code> 非阻塞統計與 <code>/admin</code> 控制台。</p>
+          <div class="tool-card__tags">
+            <span class="tag">開發與基建</span>
+            <span class="tag">Workers + KV</span>
+            <span class="tag">ruan.edu.kg</span>
+          </div>
+          <div id="spec-02" class="quick-spec" hidden>
+            <p class="quick-spec__title">QUICK SPEC · 核心技術摘要</p>
+            <p>單檔 Workers + URL_KV：metadata 加速列表、<code>expirationTtl</code> 自動回收、<code>ctx.waitUntil</code> 零延遲 302 轉址、Turnstile + HttpOnly Session。</p>
+          </div>
+          <div class="tool-card__actions">
+            <a class="btn btn--primary" href="tools/02-url-shortener.html">閱讀詳解</a>
+            <button class="btn btn--mist" type="button" data-quick-toggle="spec-02" aria-expanded="false">架構速覽</button>
+            <a class="btn btn--ghost" href="https://ruan.edu.kg" target="_blank" rel="noopener noreferrer">開啟網站 ↗</a>
+          </div>
+        </article>
+
+        <article class="tool-card" data-origin="self-built" data-category="life-ops" data-search="社區車道門禁系統 cloudflare workers etag wiegand soyal sha-256 注音還原 car.ytxhoa.de5.net">
+          <div class="tool-card__top">
+            <span class="index-code">INDEX 03</span>
+            <span class="badge badge--self">自製開發</span>
+          </div>
+          <h3 class="tool-card__title">社區車道門禁系統</h3>
+          <p class="tool-card__desc">結合邊緣三層快取、加嚴 SHA-256 防撞庫驗證與 <code>/etag</code> 讀頭換算助手，內建注音鍵位還原並自動轉換為 SOYAL Wiegand 34 內碼。</p>
+          <div class="tool-card__tags">
+            <span class="tag">生活與財務</span>
+            <span class="tag">Edge Cache</span>
+            <span class="tag">car.ytxhoa.de5.net</span>
+          </div>
+          <div id="spec-03" class="quick-spec" hidden>
+            <p class="quick-spec__title">QUICK SPEC · 核心技術摘要</p>
+            <p>Workers + GAS 快照三層容錯、<code>aptTokens</code> 交集比對 + 加嚴 SHA-256、五重防撞庫，以及 USB 讀頭注音自動還原轉 Wiegand 34。</p>
+          </div>
+          <div class="tool-card__actions">
+            <a class="btn btn--primary" href="tools/03-community-gate.html">閱讀詳解</a>
+            <button class="btn btn--mist" type="button" data-quick-toggle="spec-03" aria-expanded="false">架構速覽</button>
+            <a class="btn btn--ghost" href="https://car.ytxhoa.de5.net" target="_blank" rel="noopener noreferrer">開啟網站 ↗</a>
+          </div>
+        </article>
+
+        <article class="tool-card tool-card--upcoming" aria-label="預留擴充欄位">
+          <span class="index-code">INDEX 04 · NEXT SLOT</span>
+          <h3 class="tool-card__title">持續擴充中：下一個收錄工具</h3>
+          <p>只要將新的自製作品或外部好用網站寫入 <code>raw/tool-inbox.md</code>，AI 就會依照 <code>AGENTS.md</code> 自動編譯出下一張卡片與詳情頁。</p>
+        </article>
+      </div>
+
+      <div id="empty-state" class="empty-state">
+        <p>目前篩選條件下尚無符合的工具項目（外部網站欄位已保留擴充接口，可隨時依 <code>AGENTS.md</code> 新增）。</p>
+        <button id="reset-filters" class="btn btn--mist" type="button">重置所有篩選條件</button>
+      </div>
+    </section>
+
+    <details id="architecture" class="archive-accordion">
+      <summary class="archive-accordion__trigger">
+        <div class="archive-accordion__heading">
+          <span class="archive-accordion__kicker">AGENTS.md × LLM Wiki · Expansion Guide</span>
+          <h2 class="archive-accordion__title">這座工具檔案庫如何透過 AGENTS.md 持續擴充？</h2>
+        </div>
+        <span class="archive-accordion__hint">
+          <span>點擊展開完整說明</span>
+          <svg class="archive-accordion__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </summary>
+
+      <div class="archive-accordion__body">
+        <p>
+          本專案不只是一次性 Vibe Coding 產出的網頁，而是一套完整可交接的開發規格。未來要新增第 4 個工具（無論是自製開發或外部網站）時，任何 AI Agent 只要讀過 <code>AGENTS.md</code>，就能依循四步驟完成擴充：
+        </p>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">
+            <div class="pipeline-step__num">STEP 01 · RAW</div>
+            <h3>收集原始素材</h3>
+            <p>將新工具網址或技術觀察寫入唯讀的 <code>raw/tool-inbox.md</code>。</p>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-step__num">STEP 02 · WIKI</div>
+            <h3>編譯進 LLM Wiki</h3>
+            <p>整理 <code>wiki/NN-slug.md</code> 技術筆記，並同步更新 <code>index.md</code> 與 <code>log.md</code>。</p>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-step__num">STEP 03 · TEMPLATE</div>
+            <h3>套用標準網頁模板</h3>
+            <p>複製 <code>tools/_template.html</code> 建立詳情頁，強制使用相對路徑與霧冰藍色系。</p>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-step__num">STEP 04 · SYNC</div>
+            <h3>同步首頁與導覽</h3>
+            <p>在 <code>index.html</code> 新增索引卡片（標記 <code>self-built</code> 或 <code>curated</code>）並串聯上下頁。</p>
+          </div>
+        </div>
+
+        <div class="notebook-box">
+          <div class="notebook-box__header">
+            <span>EXPANSION PROMPT · 未來新增工具時可直接複製給 AI 的標準指令</span>
+            <button class="copy-btn" type="button" data-copy-target="expand-prompt">複製指令</button>
+          </div>
+          <pre id="expand-prompt">請先閱讀專案根目錄的 AGENTS.md，並嚴格依照第 5 節「5-Step SOP」幫我新增一個工具頁面：
+- 工具網址：https://example.com
+- 來源類型：自製開發（self-built）或 外部網站（curated）
+請整理進 wiki/（同步更新 wiki/index.md 與 wiki/log.md）、複製 tools/_template.html 生成 tools/04-xxx.html，並更新 index.html 的工具卡片牆與上一頁的導覽連結。</pre>
+        </div>
+      </div>
+    </details>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>由阮製作｜依循 AGENTS.md 與 LLM Wiki 規範建置</span>
+      <span><a href="AGENTS.md">AGENTS.md</a> · <a href="CLAUDE.md">CLAUDE.md</a> · <a href="wiki/index.md">LLM Wiki 目錄</a></span>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>

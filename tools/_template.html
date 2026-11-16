@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#NN 工具名稱｜Ruan.Lab · 由阮製作</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="7" fill="#CCE2E8" stroke="#18313A" stroke-width="1.8" />
+          <path d="M10 10H18C20.209 10 22 11.791 22 14C22 16.209 20.209 18 18 18H10V10Z" stroke="#18313A" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M10 18V23" stroke="#18313A" stroke-width="2.1" stroke-linecap="round" />
+          <path d="M16.5 18L22 23" stroke="#255B6E" stroke-width="2.1" stroke-linecap="round" />
+        </svg>
+        <span class="brand__text">
+          <span>Ruan.Lab</span>
+          <span class="brand__sub">由阮製作</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="../index.html">← 返回工具圖鑑</a>
+        <a class="btn btn--ghost" href="../AGENTS.md">AGENTS.md</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <section class="tool-hero">
+      <!-- 外部網站請額外加上 tool-hero-card--curated -->
+      <div class="tool-hero-card">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <a href="../index.html">首頁</a>
+          <span>/</span>
+          <span>TOOLS</span>
+          <span>/</span>
+          <span>#NN</span>
+        </nav>
+        <div class="tool-hero__meta">
+          <span class="index-code">INDEX NN</span>
+          <!-- 自製開發請用 badge--self，外部網站請用 badge--curated -->
+          <span class="badge badge--self">自製開發</span>
+          <span class="tag">分類標籤</span>
+        </div>
+        <h1 class="tool-hero__title">工具完整名稱</h1>
+        <p class="tool-hero__subtitle">一句話說明這個工具的核心價值、設計動機與解決的真實痛點。</p>
+        <div class="tool-hero__cta">
+          <a class="btn btn--primary" href="https://example.com" target="_blank" rel="noopener noreferrer">開啟工具網站 ↗</a>
+          <a class="btn btn--ghost" href="../wiki/index.md">對應 Wiki 目錄</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="spec-grid" aria-label="工具規格摘要">
+      <div class="spec-card">
+        <span class="spec-card__label">開發 / 來源歸屬</span>
+        <span class="spec-card__value">自製開發（或官方名稱）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">核心技術棧</span>
+        <span class="spec-card__value">框架 / 運行環境</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">適用對象</span>
+        <span class="spec-card__value">目標使用族群</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">關鍵演算法 / 亮點</span>
+        <span class="spec-card__value">主要技術亮點</span>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>問題背景與架構解法</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>過去的痛點</h3>
+          <p>描述使用這個工具前會遇到什麼麻煩、人工操作誤差或架構限制。</p>
+        </div>
+        <div class="comparison-card comparison-card--solution">
+          <h3>本工具的解法</h3>
+          <p>說明這個工具如何簡化流程、提升準確度或解決根本限制。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>核心功能與系統架構</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <ul>
+        <li><strong>核心模組一</strong>：詳細說明功能用途與實際設計。</li>
+        <li><strong>核心模組二</strong>：詳細說明資料來源、API 或儲存設計。</li>
+        <li><strong>核心模組三</strong>：詳細說明安全性、效能或使用者體驗考量。</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>核心技術實作與演算法筆記</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="notebook-box">
+        <div class="notebook-box__header">
+          <span>ARCHITECTURE &amp; CORE LOGIC · 核心流程示意</span>
+          <button class="copy-btn" type="button" data-copy-target="logic-nn">複製筆記</button>
+        </div>
+        <pre id="logic-nn">Input / 資料來源
+  └─ 處理邏輯 / 核心運算 / 安全驗證
+     └─ Output / 結果輸出與快取策略</pre>
+      </div>
+      <div class="callout">
+        <p class="callout__title">實務設計筆記與歸屬說明</p>
+        <p>填入實測心得、資安考量，或依 AGENTS.md 標明外部網站之官方來源歸屬。</p>
+      </div>
+    </section>
+
+    <nav class="page-nav" aria-label="上下篇導覽">
+      <a class="btn btn--ghost" href="../index.html">← 返回首頁</a>
+      <a class="btn btn--primary" href="../index.html">下一個工具 →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>由阮製作｜依循 AGENTS.md 與 LLM Wiki 規範建置</span>
+      <span><a href="../index.html">回首頁</a> · <a href="../AGENTS.md">AGENTS.md</a></span>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

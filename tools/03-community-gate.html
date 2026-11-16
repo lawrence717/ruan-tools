@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#03 社區車道門禁系統｜Ruan.Lab · 由阮製作</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="7" fill="#CCE2E8" stroke="#18313A" stroke-width="1.8" />
+          <path d="M10 10H18C20.209 10 22 11.791 22 14C22 16.209 20.209 18 18 18H10V10Z" stroke="#18313A" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M10 18V23" stroke="#18313A" stroke-width="2.1" stroke-linecap="round" />
+          <path d="M16.5 18L22 23" stroke="#255B6E" stroke-width="2.1" stroke-linecap="round" />
+        </svg>
+        <span class="brand__text">
+          <span>Ruan.Lab</span>
+          <span class="brand__sub">由阮製作</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="../index.html">← 返回工具圖鑑</a>
+        <a class="btn btn--ghost" href="../AGENTS.md">AGENTS.md</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <section class="tool-hero">
+      <div class="tool-hero-card">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <a href="../index.html">首頁</a>
+          <span>/</span>
+          <span>TOOLS</span>
+          <span>/</span>
+          <span>#03 COMMUNITY-GATE</span>
+        </nav>
+        <div class="tool-hero__meta">
+          <span class="index-code">INDEX 03</span>
+          <span class="badge badge--self">自製開發</span>
+          <span class="tag">Cloudflare Workers</span>
+          <span class="tag">Edge Cache</span>
+          <span class="tag">Wiegand 34</span>
+        </div>
+        <h1 class="tool-hero__title">社區車道門禁系統（含 <span class="mark">eTag 換算助手</span>）</h1>
+        <p class="tool-hero__subtitle">以 Cloudflare Workers 邊緣運算串接 Google Apps Script 後端快照，具備三層快取容錯、五重防撞庫資安驗證，以及解決 USB 讀頭注音誤觸與 SOYAL Wiegand 34 轉換的軟硬體整合工具。</p>
+        <div class="tool-hero__cta">
+          <a class="btn btn--primary" href="https://car.ytxhoa.de5.net" target="_blank" rel="noopener noreferrer">開啟系統 (car.ytxhoa.de5.net) ↗</a>
+          <a class="btn btn--ghost" href="https://car.ytxhoa.de5.net/etag" target="_blank" rel="noopener noreferrer">eTag 換算助手 ↗</a>
+          <a class="btn btn--ghost" href="../wiki/03-community-gate.md">Wiki 筆記</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="spec-grid" aria-label="工具規格摘要">
+      <div class="spec-card">
+        <span class="spec-card__label">開發 / 來源歸屬</span>
+        <span class="spec-card__value">自製開發（ytxhoa.de5.net）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">運算與後端</span>
+        <span class="spec-card__value">CF Workers + GAS 快照</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">資安防禦機制</span>
+        <span class="spec-card__value">加嚴 SHA-256 + 5 次鎖定</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">硬體編碼支援</span>
+        <span class="spec-card__value">SOYAL Wiegand 34 轉換</span>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>問題背景與架構解法</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>過去的痛點</h3>
+          <p>住戶申報車牌與感應卡後無法自行確認是否建檔；物業人員使用 USB eTag 讀頭掃描時，若電腦忘記切英文輸入法會掃出亂碼注音，還須人工把 Hex EPC 換算為門禁主機使用的 Wiegand 34 格式。</p>
+        </div>
+        <div class="comparison-card comparison-card--solution">
+          <h3>本工具的解法</h3>
+          <p>將申報表單（<code>/form</code>）、高資安查詢（<code>/search</code>）與硬體讀頭工具（<code>/etag</code>）整合於單一邊緣系統：前台全程比對加嚴雜湊並遮蔽敏資，後台讀頭頁自動還原注音誤輸入並精確輸出 <code>00000:00000</code> 內碼。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>三層快取容錯與五重資安架構</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <ul>
+        <li><strong>三層快取與斷線降級（<code>fetchAndVerifySnapshot</code>）</strong>：查詢優先命中 Worker 實例記憶體快取（<code>instanceMemoryCache</code>），其次讀取 Cloudflare Edge Cache（<code>caches.default</code>，TTL 1800 秒），僅於過期或強制同步時向後端請求快照並設 8.5 秒逾時（<code>AbortSignal.timeout</code>）；若後端延遲或中斷，自動降級使用既有快取確保查詢不斷線。</li>
+        <li><strong>跨站與安全標頭防禦</strong>：HTTP 強制 301 轉址 HTTPS，全面配置 HSTS 與嚴格 CSP；所有 <code>/api/*</code> 路由檢驗 <code>Sec-Fetch-Site</code> 與 <code>Origin</code> 標頭，防止 CSRF 跨站偽造請求。</li>
+        <li><strong>精確 Token 交集比對（<code>aptTokens</code>）</strong>：門牌比對先經 <code>NFKC</code> 正規化並拆解為 Token 集合做交集比對，徹底排除傳統 <code>indexOf</code> 子字串比對導致「1 號誤中 10 號／100 號」的權限漏洞。</li>
+        <li><strong>加嚴 SHA-256 與防撞庫鎖定</strong>：驗證資料不比對明文，統一計算加鹽 SHA-256 雜湊（<code>crypto.subtle.digest</code>）；搭配 Cloudflare Turnstile、邊緣限流與 <code>clientSecurityTracker</code>，連續錯誤 5 次或每分鐘請求達 15 次即自動鎖定 IP 10 分鐘。</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>軟硬體整合演算法：注音還原與 SOYAL Wiegand 34</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="notebook-box">
+        <div class="notebook-box__header">
+          <span>HARDWARE PARSER · normalizeEpcInput() &amp; parseEpcToSoyal()</span>
+          <button class="copy-btn" type="button" data-copy-target="logic-03">複製筆記</button>
+        </div>
+        <pre id="logic-03">[Step 1] 鍵盤輸入法容錯 (ZHUYIN_TO_KEY_MAP)
+  - USB 讀頭模擬鍵盤輸入時，若管理員電腦處於注音輸入法（如 "ㄅㄊ..."），
+    系統自動透過鍵位映射表將注音符號還原為對應英數字元，再正規化為大寫 Hex。
+
+[Step 2] EPC 區段擷取與 Wiegand 34 轉換
+  - 依感應碼長度 (24 / 16 / 8 字元) 擷取核心 8-Hex 區段
+  - 拆分為 High Hex (前 4 碼) 與 Low Hex (後 4 碼)
+  - 分別轉十進位並左側補零至 5 位數 ➔ 輸出格式：00000:00000 (SOYAL 門禁內碼)
+  - 內建同標籤 3.5 秒防重複、音效／震動回饋、游標鎖定與 CSV / JSON 批次匯出。</pre>
+      </div>
+      <div class="callout">
+        <p class="callout__title">工程亮點總結</p>
+        <p>這套系統特別針對「真實社區現場環境」做了大量細節打磨——從 iOS Safari 輸入框大於 16px 防自動縮放、USB 讀頭忘切英文輸入法的注音還原表，到後端斷線自動降級快取，把邊緣運算與現場作業痛點結合得相當成熟。</p>
+      </div>
+    </section>
+
+    <nav class="page-nav" aria-label="上下篇導覽">
+      <a class="btn btn--ghost" href="./02-url-shortener.html">← 上一篇：#02 極簡短網址服務</a>
+      <a class="btn btn--primary" href="../index.html">返回工具總覽 →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>由阮製作｜依循 AGENTS.md 與 LLM Wiki 規範建置</span>
+      <span><a href="../index.html">回首頁</a> · <a href="../AGENTS.md">AGENTS.md</a></span>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

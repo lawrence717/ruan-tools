@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#01 外匯小幫手 - 匯率與手續費比較｜Ruan.Lab · 由阮製作</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="7" fill="#CCE2E8" stroke="#18313A" stroke-width="1.8" />
+          <path d="M10 10H18C20.209 10 22 11.791 22 14C22 16.209 20.209 18 18 18H10V10Z" stroke="#18313A" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M10 18V23" stroke="#18313A" stroke-width="2.1" stroke-linecap="round" />
+          <path d="M16.5 18L22 23" stroke="#255B6E" stroke-width="2.1" stroke-linecap="round" />
+        </svg>
+        <span class="brand__text">
+          <span>Ruan.Lab</span>
+          <span class="brand__sub">由阮製作</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="../index.html">← 返回工具圖鑑</a>
+        <a class="btn btn--ghost" href="../AGENTS.md">AGENTS.md</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <section class="tool-hero">
+      <div class="tool-hero-card">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <a href="../index.html">首頁</a>
+          <span>/</span>
+          <span>TOOLS</span>
+          <span>/</span>
+          <span>#01 FX-HELPER</span>
+        </nav>
+        <div class="tool-hero__meta">
+          <span class="index-code">INDEX 01</span>
+          <span class="badge badge--self">自製開發</span>
+          <span class="tag">React 18 + TypeScript</span>
+          <span class="tag">Hono Dual-Runtime</span>
+          <span class="tag">Cheerio</span>
+        </div>
+        <h1 class="tool-hero__title">外匯小幫手 — <span class="mark">匯率與手續費比較</span></h1>
+        <p class="tool-hero__subtitle">以 React 18 與 Hono 建構的雙執行環境全端匯率試算系統，整合台灣主要銀行牌告爬蟲、Yahoo Finance 交叉匯率、海外刷卡淨回饋與 Multi-hop 多跳跨國匯款逆向成本演算法。</p>
+        <div class="tool-hero__cta">
+          <a class="btn btn--primary" href="https://bank.ruan.edu.kg" target="_blank" rel="noopener noreferrer">開啟網站 (bank.ruan.edu.kg) ↗</a>
+          <a class="btn btn--ghost" href="https://github.com/lawrence717/bank" target="_blank" rel="noopener noreferrer">GitHub 原始碼 ↗</a>
+          <a class="btn btn--ghost" href="../wiki/01-fx-helper.md">Wiki 筆記</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="spec-grid" aria-label="工具規格摘要">
+      <div class="spec-card">
+        <span class="spec-card__label">開發 / 來源歸屬</span>
+        <span class="spec-card__value">自製開發（lawrence717/bank）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">前端技術棧</span>
+        <span class="spec-card__value">React 18 + Vite + Tailwind</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">後端與部署架構</span>
+        <span class="spec-card__value">Hono（CF Pages / Node.js）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">快取與解析套件</span>
+        <span class="spec-card__value">Cheerio + 5 分鐘 Map TTL</span>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>問題背景與架構解法</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>過去的痛點</h3>
+          <p>海外留學或跨境消費時，銀行只提供單段牌告匯率，難以一次比較 JCB / Mastercard / VISA 加計 1.5% 海外手續費與各卡現金回饋後的淨損益，更難逆推「台幣 ➔ 美元/中轉行 ➔ 歐洲網銀」的多跳電匯總支出。</p>
+        </div>
+        <div class="comparison-card comparison-card--solution">
+          <h3>本工具的解法</h3>
+          <p>由 Hono 後端統一聚合台灣銀行、玉山、國泰與國際交叉匯率，前端提供情境式逆算模型：只要輸入國外收款實領金額，系統自動加計電匯費、郵電費與中轉損耗，輸出各銀行與路徑的總台幣支出排行榜。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>前後端架構與資料來源設計</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <ul>
+        <li><strong>雙運行環境後端（<code>api-hono.ts</code>）</strong>：核心路由使用輕量級框架 <strong>Hono</strong> 撰寫，透過 <code>functions/api/[[route]].ts</code> 部署為 Cloudflare Pages Functions 邊緣服務，同時保留 <code>server.ts</code>（<code>@hono/node-server</code>）支援 Node.js 容器運行與 Vite 開發整合。</li>
+        <li><strong>三大即時匯率資料來源</strong>：
+          <ul>
+            <li><strong>臺灣銀行（BOT）</strong>：抓取 <code>rate.bot.com.tw/xrt?Lang=zh-TW</code> 並使用 <code>cheerio</code> 解析 HTML 表格中的現金／即期買賣價。</li>
+            <li><strong>玉山銀行與國泰世華銀行</strong>：直接對接銀行對外匯率查詢接口取得即時牌價。</li>
+            <li><strong>Yahoo Finance API</strong>：透過 <code>v8/finance/chart/{CURRENCY}TWD=X</code> 等端點補足非台幣計價交叉匯率與歷史走勢圖表。</li>
+          </ul>
+        </li>
+        <li><strong>5 分鐘記憶體 TTL 快取</strong>：後端建立 <code>Map</code> 快取（<code>CACHE_TTL = 5 * 60 * 1000</code>），防止短時間頻繁爬蟲觸發銀行限流（Rate Limit）。</li>
+        <li><strong>前端模組化元件（<code>src/components/</code>）</strong>：切分為 <code>BankRatesBoard.tsx</code>（即時看板排名）、<code>CreditCardCompare.tsx</code>（刷卡手續費與淨回饋試算）、<code>FxCalculator.tsx</code>（外匯兌換計算機），並於 <code>App.tsx</code> 實作 Multi-hop 多跳匯款路線排程與 JSON 匯入匯出。</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>核心演算法與計算公式解析</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="notebook-box">
+        <div class="notebook-box__header">
+          <span>CORE ALGORITHMS · 逆算匯款成本與信用卡淨回饋邏輯</span>
+          <button class="copy-btn" type="button" data-copy-target="logic-01">複製筆記</button>
+        </div>
+        <pre id="logic-01">[1] Multi-hop 逆向匯款總成本（目標實收金額 A_target）
+    - 直匯成本   = ceil(A_target * Rate_spot_sell) + 匯出手續費(0.05%, NT$100~800) + 郵電費 + 全額到行中轉費
+    - 多跳中轉   = (A_target / Rate_cross) -> 換算 USD 需求 -> 以銀行 USD 即期賣出價換回 TWD 成本
+    - 實質匯率   = 總支出新台幣 / 實收外幣金額 A_target  ➔  依總支出由低至高自動排名
+
+[2] 海外刷卡手續費與淨回饋（外幣消費 A_foreign）
+    - 折合台幣   = A_foreign * Rate_network (VISA / Mastercard / JCB)
+    - 海外手續費 = round(Base_TWD * 1.5%)
+    - 信用卡回饋 = round(Base_TWD * R%)
+    - 實際淨支出 = Base_TWD + Fee_TWD - Reward_TWD  (當 R% > 1.5% 即顯示淨倒賺比率)</pre>
+      </div>
+      <div class="callout">
+        <p class="callout__title">工程與產品觀察</p>
+        <p>這份專案展現了極高的實用工程思維：前端用 TypeScript 嚴謹管理各幣別定義（<code>currencies.ts</code>）與邊緣 API 防呆（<code>api.ts</code>），後端用 Hono 同時兼容 Serverless 與傳統伺服器，解決的更是留學生與旅外族最容易被銀行隱藏手續費剝削的真實場景。</p>
+      </div>
+    </section>
+
+    <nav class="page-nav" aria-label="上下篇導覽">
+      <a class="btn btn--ghost" href="../index.html">← 返回首頁</a>
+      <a class="btn btn--primary" href="./02-url-shortener.html">下一篇：#02 極簡短網址服務 →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>由阮製作｜依循 AGENTS.md 與 LLM Wiki 規範建置</span>
+      <span><a href="../index.html">回首頁</a> · <a href="../AGENTS.md">AGENTS.md</a></span>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

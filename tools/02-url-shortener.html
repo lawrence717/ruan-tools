@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#02 極簡短網址服務｜Ruan.Lab · 由阮製作</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="7" fill="#CCE2E8" stroke="#18313A" stroke-width="1.8" />
+          <path d="M10 10H18C20.209 10 22 11.791 22 14C22 16.209 20.209 18 18 18H10V10Z" stroke="#18313A" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M10 18V23" stroke="#18313A" stroke-width="2.1" stroke-linecap="round" />
+          <path d="M16.5 18L22 23" stroke="#255B6E" stroke-width="2.1" stroke-linecap="round" />
+        </svg>
+        <span class="brand__text">
+          <span>Ruan.Lab</span>
+          <span class="brand__sub">由阮製作</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a class="btn btn--ghost" href="../index.html">← 返回工具圖鑑</a>
+        <a class="btn btn--ghost" href="../AGENTS.md">AGENTS.md</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-container">
+    <section class="tool-hero">
+      <div class="tool-hero-card">
+        <nav class="breadcrumb" aria-label="麵包屑導覽">
+          <a href="../index.html">首頁</a>
+          <span>/</span>
+          <span>TOOLS</span>
+          <span>/</span>
+          <span>#02 URL-SHORTENER</span>
+        </nav>
+        <div class="tool-hero__meta">
+          <span class="index-code">INDEX 02</span>
+          <span class="badge badge--self">自製開發</span>
+          <span class="tag">Cloudflare Workers</span>
+          <span class="tag">Cloudflare KV</span>
+          <span class="tag">Serverless</span>
+        </div>
+        <h1 class="tool-hero__title">極簡短網址服務（<span class="mark">ruan.edu.kg</span>）</h1>
+        <p class="tool-hero__subtitle">將前後端 UI、轉址引擎與後台管理系統濃縮進單一 Cloudflare Worker 檔案的無伺服器短網址服務，搭配 KV 原生 TTL、非阻塞點擊分析與企業級登入資安防護。</p>
+        <div class="tool-hero__cta">
+          <a class="btn btn--primary" href="https://ruan.edu.kg" target="_blank" rel="noopener noreferrer">開啟網站 (ruan.edu.kg) ↗</a>
+          <a class="btn btn--ghost" href="../wiki/02-url-shortener.md">Wiki 筆記</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="spec-grid" aria-label="工具規格摘要">
+      <div class="spec-card">
+        <span class="spec-card__label">開發 / 來源歸屬</span>
+        <span class="spec-card__value">自製開發（ruan.edu.kg）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">運行架構</span>
+        <span class="spec-card__value">單檔 Cloudflare Worker</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">資料儲存層</span>
+        <span class="spec-card__value">Cloudflare KV（URL_KV）</span>
+      </div>
+      <div class="spec-card">
+        <span class="spec-card__label">核心安全防護</span>
+        <span class="spec-card__value">Turnstile + HttpOnly Session</span>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>問題背景與架構解法</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>過去的痛點</h3>
+          <p>坊間免費短網址服務常安插廣告過渡頁、限制免費自訂短代碼（Custom Slug），且一旦服務商改制或收攤，過去印在海報或報告上的連結便集體失效。</p>
+        </div>
+        <div class="comparison-card comparison-card--solution">
+          <h3>本工具的解法</h3>
+          <p>以零主機費用的 Cloudflare Workers + KV 建置在個人主網域下，享有全球邊緣節點毫秒級 302 轉址，並可自由管理自訂短碼、到期天數與點擊來源統計。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>系統架構與核心設計亮點</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <ul>
+        <li><strong>KV 鍵值設計與 Metadata 列表加速</strong>：每筆短連結以 <code>URL:&lt;slug&gt;</code> 儲存完整 JSON（包含 <code>longUrl</code>、<code>titleNote</code>、<code>clicks</code>、<code>countries</code>、<code>devices</code> 與近 20 筆造訪紀錄），同時將摘要寫入 KV <code>metadata</code>，讓 <code>/admin</code> 後台列表不需逐筆讀取完整 Payload 即可快速渲染。</li>
+        <li><strong>原生 TTL 過期機制</strong>：支援選填「有效天數（<code>ttlDays</code>）」，後端自動換算為秒數傳入 KV 的 <code>expirationTtl</code>（最低 60 秒），時間一到由 Cloudflare 平台自動清理。</li>
+        <li><strong>防衝突與防無限迴圈保護</strong>：內建 <code>RESERVED_SLUGS</code> 系統保留字檢查（避免與 <code>admin</code>、<code>api</code> 等路徑撞名）、僅允許 <code>http/https</code> 協議，並禁止縮短本系統自身網域（<code>url.origin</code>）防止循環跳轉攻擊。</li>
+        <li><strong>雙重登入與資安防護</strong>：後台整合 <code>timingSafeEqual</code> 常數時間比對防範計時攻擊、<code>crypto.subtle</code> SHA-256 加鹽密碼雜湊、Cloudflare Turnstile 人機驗證、每 5 分鐘建立速率限制（<code>RATE_LIMIT_SURL</code>）、連續失敗 5 次鎖定 IP 15 分鐘，以及 <code>HttpOnly; Secure; SameSite=Lax</code> Session Cookie。</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>非同步零延遲轉址與統計流程</h2>
+      <div class="editorial-rule" aria-hidden="true"></div>
+      <div class="notebook-box">
+        <div class="notebook-box__header">
+          <span>EDGE REDIRECT PIPELINE · 轉址零延遲統計架構 (ctx.waitUntil)</span>
+          <button class="copy-btn" type="button" data-copy-target="logic-02">複製筆記</button>
+        </div>
+        <pre id="logic-02">GET /:slug
+  ├─ 1. 檢查 RESERVED_SLUGS 並讀取 env.URL_KV.get("URL:" + slug)
+  ├─ 2. 驗證目標網址協議合法性 (isValidHttpUrl)
+  ├─ 3. 從 Cloudflare request.cf?.country 與 User-Agent 解析國家及裝置 (Desktop / Mobile / Tablet)
+  ├─ 4. 呼叫 ctx.waitUntil(env.URL_KV.put(...)) 於背景非同步更新點擊統計
+  └─ 5. 主執行緒無需等待資料庫寫入完成，立即回傳 HTTP 302 Redirect！</pre>
+      </div>
+      <div class="callout">
+        <p class="callout__title">工程細節觀察</p>
+        <p>利用 Cloudflare Workers 專屬的 <code>ctx.waitUntil()</code> 把統計寫入放到背景執行，讓短網址轉址的回應延遲不會被 KV 寫入拖慢；搭配嚴格的 CSP 與 <code>X-Frame-Options: DENY</code> 標頭，單一檔案即達成高安全等級的個人數位基建。</p>
+      </div>
+    </section>
+
+    <nav class="page-nav" aria-label="上下篇導覽">
+      <a class="btn btn--ghost" href="./01-fx-helper.html">← 上一篇：#01 外匯小幫手</a>
+      <a class="btn btn--primary" href="./03-community-gate.html">下一篇：#03 社區車道門禁系統 →</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>由阮製作｜依循 AGENTS.md 與 LLM Wiki 規範建置</span>
+      <span><a href="../index.html">回首頁</a> · <a href="../AGENTS.md">AGENTS.md</a></span>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>
