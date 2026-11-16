@@ -50,7 +50,7 @@
 
 ## 3. 視覺風格與設計系統（Mist Ice Blue Editorial Design System）
 
-本專案參考清晰俐落的編輯排版結構，並以 **霧冰藍（`#CCE2E8` / `rgb(204, 226, 232)`）** 為核心基底色調延伸整套協調色系，刻意去除點陣雜訊、卡通元素與 Emoji 裝飾。所有頁面共用 `styles/main.css`，**嚴禁在 HTML 內寫入衝突的 inline `style` 覆蓋全域風格**。
+本專案參考清晰俐落的編輯排版結構，並以 **霧冰藍（`#CCE2E8` / `rgb(204, 226, 232)`）** 為核心基底色調延伸整套協調色系。所有頁面共用 `styles/main.css`，**嚴禁在 HTML 內寫入衝突的 inline `style` 覆蓋全域風格**。
 
 ### 色彩規範（CSS 變數，定義於 `styles/main.css`）
 - **核心主題與畫布底色（以 `#CCE2E8` 為基底調和）**：
