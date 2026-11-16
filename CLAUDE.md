@@ -12,7 +12,6 @@
    - 於 `wiki/NN-slug.md` 建立結構化筆記（包含技術棧與實作細節），並同步更新 `wiki/index.md` 與 `wiki/log.md`。
 3. **保持設計系統規範**：
    - 沿用 `styles/main.css` 以霧冰藍（`#CCE2E8`）為基底的協調冷色階（`#F5F9FB` → `#E7F0F3` 漸層底色、`#FFFFFF` 卡片、`#18313A` 深石板藍標題、`#255B6E` 峽灣藍強調色），不使用點陣背景。
-   - **禁止使用可愛卡通插圖、圓體卡通字型、表情符號 Emoji 或破壞全域樣式的 inline style**。
 4. **產生網頁**：
    - 複製 `tools/_template.html` 建立 `tools/NN-slug.html`。
    - 所有連結與資源一律使用相對路徑（`../styles/main.css`、`../scripts/main.js`、`../index.html`）。
